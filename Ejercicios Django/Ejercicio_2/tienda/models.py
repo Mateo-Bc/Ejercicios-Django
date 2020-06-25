@@ -9,7 +9,8 @@ class Direccion(models.Model):
     comuna = models.IntegerField()
 
     def __str__(self):
-        return str(self.calle + ' ' + self.numero)
+        s_numero = str(self.numero)
+        return str(self.calle + ' ' + s_numero)
 
 class Telefono(models.Model):
     numero = models.IntegerField()
@@ -22,42 +23,47 @@ class Telefono(models.Model):
 class Cliente(models.Model):
     rut = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=35)
-    #telefono
-    #direccion
+    telefono = models.ForeignKey(Telefono, on_delete=models.CASCADE)
+    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.rut + ' | ' + self.nombre)
+        s_rut = str(self.rut)
+        return str(s_rut + ' | ' + self.nombre)
 
 class Proveedor(models.Model):
     rut = models.AutoField(primary_key=True) 
     nombre = models.CharField(max_length=35)
-    web = models.CharField(max_length=150)
-    #telefono
-    #direccion
+    web = models.CharField(max_length=150, default="None", null=True, blank=True)
+    telefono = models.ForeignKey(Telefono, on_delete=models.CASCADE)
+    direccion = models.ForeignKey(Direccion, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.rut + ' | ' + self.nombre + '(Prov.)')
+        s_rut = str(self.rut)
+        return str(s_rut + ' | ' + self.nombre + ' (Prov.)')
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
-    descricion = models.CharField
+    descripcion = models.CharField(max_length=25, default=None)
 
     def __str__(self):
-        return str(self.descricion)
+        return str(self.descripcion)
 
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=35)
     precio = models.IntegerField()
+    s_precio = '$' + str(precio)
     stock = models.IntegerField()
-    #proveedor
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
+    proveedor = models.ForeignKey(Proveedor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id + ' ' + self.nombre)
+        s_id = str(self.id)
+        return str(s_id  + ' ' + self.nombre)
 
 class Detalle_Venta(models.Model):
     cantidad = models.IntegerField()
-    #producto
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
 
 class Venta(models.Model):
     id = models.AutoField(primary_key=True)
