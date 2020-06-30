@@ -3,6 +3,25 @@ from .models import *
 
 class Cliente_Admin(admin.ModelAdmin):
     list_display = ['rut', 'nombre', 'telefono']
+    list_display_links = ['rut', 'nombre']
+
+
+
+class Producto_Admin(admin.ModelAdmin):
+    list_display = ['nombre', 'stock']
+    fieldsets = (
+        ('Descripcion',{
+            'fields':('nombre', 'categoria')
+        }),
+        ('Variables',{
+            'fields':('proveedor', 'precio', 'stock')
+        })
+    )
+
+
+
+class Venta_Admin(admin.ModelAdmin):
+    pass
 
 # Register your models here.
 
@@ -12,6 +31,5 @@ admin.site.register(Telefono, )
 admin.site.register(Cliente, Cliente_Admin)
 admin.site.register(Proveedor, )
 admin.site.register(Categoria, )
-admin.site.register(Producto, )
-#admin.site.register(Detalle_Venta, )
-#admin.site.register(Venta, )
+admin.site.register(Producto, Producto_Admin)
+admin.site.register(Venta, Venta_Admin)
