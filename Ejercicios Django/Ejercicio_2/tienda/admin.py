@@ -8,14 +8,24 @@ class Cliente_Admin(admin.ModelAdmin):
 
 
 
+class Proveedor_Admin(admin.ModelAdmin):
+    list_display = ['nombre', 'web']
+    list_filter = ('nombre', 'rut')
+
+class ProveedorInline(admin.TabularInline):
+    model = Proveedor
+
+
+
 class Producto_Admin(admin.ModelAdmin):
     list_display = ['nombre', 'stock', 'precio']
+    inlines = [ProveedorInline, ]
     fieldsets = (
         ('Descripcion',{
             'fields':('nombre', 'categoria')
         }),
         ('Variables',{
-            'fields':('proveedor', 'precio', 'stock')
+            'fields':('precio', 'stock')
         })
     )
 
@@ -45,10 +55,6 @@ class Venta_Admin(admin.ModelAdmin):
     enable_discounts.short_description = 'Aplicar descuentos'
 
 
-
-class Proveedor_Admin(admin.ModelAdmin):
-    list_display = ['nombre', 'web']
-    list_filter = ('nombre', 'rut')
 
 # Register your models here.
 
