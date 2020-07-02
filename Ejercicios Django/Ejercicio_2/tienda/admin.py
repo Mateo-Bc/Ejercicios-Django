@@ -8,7 +8,7 @@ class Cliente_Admin(admin.ModelAdmin):
 
 
 class Producto_Admin(admin.ModelAdmin):
-    list_display = ['nombre', 'stock']
+    list_display = ['nombre', 'stock', 'precio']
     fieldsets = (
         ('Descripcion',{
             'fields':('nombre', 'categoria')
@@ -21,8 +21,27 @@ class Producto_Admin(admin.ModelAdmin):
 
 
 class Venta_Admin(admin.ModelAdmin):
-    pass
+    exclude = ['monto_total']
+    readonly_fields = ['monto_final']
+    list_display = ['id', 'cliente' , 'fecha', 'apl_desc', 'monto_final']
+    list_display_links = ['id', 'cliente']
+    fieldsets = (
+        ('Información', {
+            'fields':('fecha', 'cliente')
+        }),
+        ('Factura', {
+            'fields':('producto', 'cantidad', 'monto_final', 'apl_desc', 'descuento')
+        })
+    )
+    actions = ['disable_discounts', 'enable_discounts']
 
+    def disable_discounts(self, request, queryset):
+        return queryset.update(apl_desc = False)
+    disable_discounts.short_description = 'Ignorar descuentos'
+
+    def enable_discounts(self, request, queryset):
+        return queryset.update(apl_desc = True)
+    enable_discounts.short_description = 'Aplicar descuentos'
 
 
 class Proveedor_Admin(admin.ModelAdmin):
