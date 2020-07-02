@@ -4,6 +4,7 @@ from .models import *
 class Cliente_Admin(admin.ModelAdmin):
     list_display = ['rut', 'nombre', 'telefono']
     list_display_links = ['rut', 'nombre']
+    search_fields = ['nombre', 'rut']
 
 
 
@@ -42,6 +43,7 @@ class Venta_Admin(admin.ModelAdmin):
     def enable_discounts(self, request, queryset):
         return queryset.update(apl_desc = True)
     enable_discounts.short_description = 'Aplicar descuentos'
+
 
 
 class Proveedor_Admin(admin.ModelAdmin):

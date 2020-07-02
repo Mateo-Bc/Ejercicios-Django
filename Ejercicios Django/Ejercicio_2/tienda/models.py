@@ -12,11 +12,15 @@ class Direccion(models.Model):
         s_numero = str(self.numero)
         return str(self.calle + ' ' + s_numero)
 
+
+
 class Telefono(models.Model):
     numero = models.IntegerField()
 
     def __str__(self):
         return str(self.numero)
+
+
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True, default=None)
@@ -36,6 +40,8 @@ class Cliente(models.Model):
     def __str__(self):
         return str(self.rut) + ' | ' + self.nombre
 
+
+
 class Proveedor(models.Model):
     rut = models.AutoField(primary_key=True) 
     nombre = models.CharField(max_length=35)
@@ -45,6 +51,8 @@ class Proveedor(models.Model):
 
     def __str__(self):
         return str(self.rut) + ' | ' + self.nombre + ' (Prov.)'
+
+
 
 class Producto(models.Model):
     id = models.AutoField(primary_key=True)
@@ -56,6 +64,8 @@ class Producto(models.Model):
     
     def __str__(self):
         return str(self.nombre)
+
+
 
 class Venta(models.Model):
     id = models.AutoField(primary_key=True)
